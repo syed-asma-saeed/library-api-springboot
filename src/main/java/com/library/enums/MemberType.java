@@ -1,5 +1,15 @@
 package com.library.enums;
 
-public enum MemberType {
-    STUDENT, FACULTY
+import lombok.Getter;
+
+@Getter
+public enum MemberType{
+    STUDENT(3),
+    FACULTY(10);
+
+    private final int borrowLimit;
+    MemberType(int borrowLimit){
+        this.borrowLimit = borrowLimit;
+    }
+
 }
