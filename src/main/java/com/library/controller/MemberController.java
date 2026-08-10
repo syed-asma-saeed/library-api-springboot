@@ -30,8 +30,8 @@ public class MemberController {
     }
 
     @PostMapping
-    public ResponseEntity<Optional<MemberResponse>> addMember(@RequestBody MemberRequest request) {
-        return ResponseEntity.status(200).body(memberService.addMember(request));
+    public ResponseEntity<MemberResponse> addMember(@RequestBody MemberRequest request) {
+        return ResponseEntity.status(201).body(memberService.addMember(request));
     }
 
     @PutMapping("/{id}")

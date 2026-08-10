@@ -25,7 +25,7 @@ public class BorrowService {
     private final MemberRepository memberRepository;
     private final BorrowRecordRepository borrowRecordRepository;
 
-    BorrowService(BookRepository bookRepository, MemberRepository memberRepository, BorrowRecordRepository borrowRecordRepository){
+    public BorrowService(BookRepository bookRepository, MemberRepository memberRepository, BorrowRecordRepository borrowRecordRepository){
         this.bookRepository = bookRepository;
         this.memberRepository = memberRepository;
         this.borrowRecordRepository = borrowRecordRepository;
@@ -87,14 +87,13 @@ public class BorrowService {
 
         member.decrementBorrowCount();
 
-        Book bookSaved = bookRepository.save(book);
-        Member memberSaved = memberRepository.save(member);
         BorrowRecord recordSaved = borrowRecordRepository.save(record);
 
         return toResponse(recordSaved);
     }
 
 
+    @Transactional
     public List<BorrowResponse> getOverdueRecords(){
         return borrowRecordRepository
                 .findByReturnedFalseAndDueDateBefore(LocalDate.now())
@@ -104,12 +103,16 @@ public class BorrowService {
     }
 
 
+    @Transactional
     public List<BorrowResponse> getMemberHistory(Long memberId){
-        return borrowRecordRepository.findByMember(memberRepository.findById(memberId))
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberNotFoundException("Member not found: " + memberId));
+        return borrowRecordRepository.findByMember(member)
                 .stream()
                 .map(this::toResponse)
-                .collect(Collectors.toUnmodifiableList());
+                .collect(Collectors.toList());
     }
+
 
     private BorrowResponse toResponse(BorrowRecord borrowRecord){
         BorrowResponse response = new BorrowResponse();
