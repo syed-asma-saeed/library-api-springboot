@@ -14,7 +14,4 @@ public enum MemberType{
         this.borrowLimit = borrowLimit;
         this.dueDays = dueDays;
     }
-
-    public int getBorrowLimit() { return this.borrowLimit; }
-    public int getDueDate() { return this.dueDays; }
 }

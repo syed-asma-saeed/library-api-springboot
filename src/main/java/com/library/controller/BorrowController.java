@@ -17,7 +17,7 @@ public class BorrowController {
 
     private final BorrowService borrowService;
 
-    BorrowController(BorrowService borrowService){
+    public BorrowController(BorrowService borrowService){
         this.borrowService = borrowService;
     }
 

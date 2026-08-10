@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface BorrowRecordRepository extends JpaRepository<BorrowRecord, Long> {
 
-    List<BorrowRecord> findByMember(Optional<Member> member);
+    List<BorrowRecord> findByMember(Member member);
     List<BorrowRecord> findByBook(Book book);
     List<BorrowRecord> findByReturned(boolean returned);
     List<BorrowRecord> findByReturnedFalseAndDueDateBefore(LocalDate date);

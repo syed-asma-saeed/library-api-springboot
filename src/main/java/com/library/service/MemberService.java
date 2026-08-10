@@ -35,7 +35,7 @@ public class MemberService {
         return toResponse(member);
 
     }
-    public Optional<MemberResponse> addMember(MemberRequest request){
+    public MemberResponse addMember(MemberRequest request){
         memberRepository.findByEmail(request.getEmail())
                 .ifPresent(member -> {
                     throw new DuplicateMemberException(
@@ -50,7 +50,7 @@ public class MemberService {
         member.setMemberType(request.getMemberType());
 
         Member saved = memberRepository.save(member);
-        return Optional.of(toResponse(saved));
+        return toResponse(saved);
     }
 
     public MemberResponse updateMember(Long id, MemberRequest request){
