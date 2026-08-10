@@ -3,6 +3,7 @@ package com.library.controller;
 import com.library.dto.request.MemberRequest;
 import com.library.dto.response.MemberResponse;
 import com.library.service.MemberService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,12 +31,12 @@ public class MemberController {
     }
 
     @PostMapping
-    public ResponseEntity<MemberResponse> addMember(@RequestBody MemberRequest request) {
+    public ResponseEntity<MemberResponse> addMember(@Valid @RequestBody MemberRequest request) {
         return ResponseEntity.status(201).body(memberService.addMember(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MemberResponse> updateMember(
+    public ResponseEntity<MemberResponse> updateMember(@Valid
             @PathVariable Long id,
             @RequestBody MemberRequest request) {
         return ResponseEntity.ok(memberService.updateMember(id, request));

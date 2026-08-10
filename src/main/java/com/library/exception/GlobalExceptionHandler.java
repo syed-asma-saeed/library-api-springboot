@@ -2,8 +2,11 @@ package com.library.exception;
 
 import com.library.dto.response.ErrorResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
 
@@ -63,6 +66,34 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleBorrowCountNotZeroException(BorrowCountNotZeroException ex) {
         return ResponseEntity.status(400).body(
                 new ErrorResponse(400, ex.getMessage(), LocalDateTime.now())
+        );
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleArgumentNotValid(MethodArgumentNotValidException ex){
+        String message = "Invalid value '" + ex.getFieldError() +
+                "' for parameter '" + ex.getParameter()+ "'";
+
+        return ResponseEntity.status(400).body(
+                new ErrorResponse(400, message, LocalDateTime.now())
+        );
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleTypeMismatch(
+            MethodArgumentTypeMismatchException ex) {
+        String message = "Invalid value '" + ex.getValue() +
+                "' for parameter '" + ex.getName() + "'";
+        return ResponseEntity.status(400).body(
+                new ErrorResponse(400, message, LocalDateTime.now())
+        );
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handleUnreadable(
+            HttpMessageNotReadableException ex) {
+        return ResponseEntity.status(400).body(
+                new ErrorResponse(400, "Malformed JSON request", LocalDateTime.now())
         );
     }
 

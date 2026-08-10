@@ -3,6 +3,7 @@ package com.library.controller;
 import com.library.dto.request.BookRequest;
 import com.library.dto.response.BookResponse;
 import com.library.service.BookService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,12 +35,12 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<BookResponse> addBook(@RequestBody BookRequest request) {
+    public ResponseEntity<BookResponse> addBook(@Valid @RequestBody BookRequest request) {
         return ResponseEntity.status(201).body(bookService.addBook(request));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookResponse> updateBook(
+    public ResponseEntity<BookResponse> updateBook(@Valid
             @PathVariable Long id,
             @RequestBody BookRequest request) {
         return ResponseEntity.ok(bookService.updateBook(id, request));
