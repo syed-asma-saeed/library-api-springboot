@@ -5,6 +5,7 @@ import com.library.dto.request.MemberRequest;
 import com.library.dto.response.BorrowResponse;
 import com.library.dto.response.MemberResponse;
 import com.library.service.BorrowService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,12 +23,12 @@ public class BorrowController {
     }
 
     @PostMapping
-    public ResponseEntity<BorrowResponse> borrowBook(@RequestBody BorrowRequest request) {
+    public ResponseEntity<BorrowResponse> borrowBook(@Valid @RequestBody BorrowRequest request) {
         return ResponseEntity.status(201).body(borrowService.borrowBook(request));
     }
 
     @PostMapping("return/{recordId}")
-    public ResponseEntity<BorrowResponse> returnBook(@PathVariable Long recordId){
+    public ResponseEntity<BorrowResponse> returnBook(@Valid @PathVariable Long recordId){
         return ResponseEntity.ok(borrowService.returnBook(recordId));
     }
 
