@@ -1,0 +1,5 @@
+package com.library.exception;
+
+public class RecordNotFoundException extends RuntimeException{
+    public RecordNotFoundException(String mssg){ super(mssg);}
+}

@@ -4,12 +4,17 @@ import lombok.Getter;
 
 @Getter
 public enum MemberType{
-    STUDENT(3),
-    FACULTY(10);
+    STUDENT(3, 14),
+    FACULTY(10, 30);
 
     private final int borrowLimit;
-    MemberType(int borrowLimit){
+    private final int dueDays;
+
+    MemberType(int borrowLimit, int dueDays) {
         this.borrowLimit = borrowLimit;
+        this.dueDays = dueDays;
     }
 
+    public int getBorrowLimit() { return this.borrowLimit; }
+    public int getDueDate() { return this.dueDays; }
 }
