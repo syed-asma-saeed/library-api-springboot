@@ -17,6 +17,55 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(BookNotAvailableException.class)
+    public ResponseEntity<ErrorResponse> handleBookNotAvailableException(BookNotAvailableException ex) {
+        return ResponseEntity.status(400).body(
+                new ErrorResponse(400, ex.getMessage(), LocalDateTime.now())
+        );
+    }
+
+    @ExceptionHandler(MemberNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleMemberNotFoundException(MemberNotFoundException ex) {
+        return ResponseEntity.status(404).body(
+                new ErrorResponse(404, ex.getMessage(), LocalDateTime.now())
+        );
+    }
+
+    @ExceptionHandler(DuplicateMemberException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateMemberException(DuplicateMemberException ex) {
+        return ResponseEntity.status(409).body(
+                new ErrorResponse(409, ex.getMessage(), LocalDateTime.now())
+        );
+    }
+
+    @ExceptionHandler(BorrowLimitExceededException.class)
+    public ResponseEntity<ErrorResponse> handleBorrowLimitExceededException(BorrowLimitExceededException ex) {
+        return ResponseEntity.status(400).body(
+                new ErrorResponse(400, ex.getMessage(), LocalDateTime.now())
+        );
+    }
+
+    @ExceptionHandler(RecordNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleRecordNotFoundException(RecordNotFoundException ex) {
+        return ResponseEntity.status(404).body(
+                new ErrorResponse(404, ex.getMessage(), LocalDateTime.now())
+        );
+    }
+
+    @ExceptionHandler(AlreadyReturnedException.class)
+    public ResponseEntity<ErrorResponse> handleAlreadyReturnedException(AlreadyReturnedException ex) {
+        return ResponseEntity.status(400).body(
+                new ErrorResponse(400, ex.getMessage(), LocalDateTime.now())
+        );
+    }
+
+    @ExceptionHandler(BorrowCountNotZeroException.class)
+    public ResponseEntity<ErrorResponse> handleBorrowCountNotZeroException(BorrowCountNotZeroException ex) {
+        return ResponseEntity.status(400).body(
+                new ErrorResponse(400, ex.getMessage(), LocalDateTime.now())
+        );
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneral(Exception ex) {
         return ResponseEntity.status(500).body(

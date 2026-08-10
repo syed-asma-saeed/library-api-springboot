@@ -52,4 +52,5 @@ public class BorrowRecord {
         long days = ChronoUnit.DAYS.between(dueDate, LocalDate.now());
         return days * 2.0;
     }
+
 }
