@@ -1,6 +1,7 @@
 package com.library.exception;
 
 import com.library.dto.response.ErrorResponse;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -70,9 +72,14 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleArgumentNotValid(MethodArgumentNotValidException ex){
-        String message = "Invalid value '" + ex.getFieldError() +
-                "' for parameter '" + ex.getParameter()+ "'";
+    public ResponseEntity<ErrorResponse> handleArgumentNotValid(
+            MethodArgumentNotValidException ex) {
+
+        String message = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining(", "));
 
         return ResponseEntity.status(400).body(
                 new ErrorResponse(400, message, LocalDateTime.now())
