@@ -1,5 +1,10 @@
 package com.library.service;
 
+import com.library.dto.request.AuthRequest;
+import com.library.dto.request.RegisterRequest;
+import com.library.dto.response.AuthResponse;
+import com.library.exception.DuplicateUserException;
+import com.library.exception.UserNotFoundException;
 import com.library.model.User;
 import com.library.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,7 +29,7 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request){
 
-        if(userRepository.exists(request.getEmail()))
+        if(userRepository.findByEmail(request.getEmail()).isPresent())
             throw new DuplicateUserException("User already exists with this email: " + request.getEmail());
 
         User user = new User();
@@ -41,8 +46,22 @@ public class AuthService {
 
     public AuthResponse login(AuthRequest request){
 
-        User user = userRepository.findByEmail(request.getEmail()) .orElseThrow(() -> new RuntimeException("User not found") );
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() ->
+                        new UserNotFoundException(
+                                "User not found with email: " + request.getEmail()
+                        )
+                );
+
         String token = jwtService.generateToken(user);
+
         return new AuthResponse(token);
 
     }
