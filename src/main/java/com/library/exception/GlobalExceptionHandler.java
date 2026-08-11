@@ -15,6 +15,20 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex) {
+        return ResponseEntity.status(404).body(
+                new ErrorResponse(404, ex.getMessage(), LocalDateTime.now())
+        );
+    }
+
+    @ExceptionHandler(DuplicateUserException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateUserException(DuplicateUserException ex) {
+        return ResponseEntity.status(409).body(
+                new ErrorResponse(409, ex.getMessage(), LocalDateTime.now())
+        );
+    }
+
     @ExceptionHandler(BookNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleBookNotFound(BookNotFoundException ex) {
         return ResponseEntity.status(404).body(
