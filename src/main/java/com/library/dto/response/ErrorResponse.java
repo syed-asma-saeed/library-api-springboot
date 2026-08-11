@@ -1,8 +1,13 @@
 package com.library.dto.response;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 // ErrorResponse DTO:
+@Getter
+@Setter
 public class ErrorResponse {
     private int status;
     private String message;
@@ -13,5 +18,4 @@ public class ErrorResponse {
         this.message = message;
         this.timestamp = timestamp;
     }
-    // getters
 }
