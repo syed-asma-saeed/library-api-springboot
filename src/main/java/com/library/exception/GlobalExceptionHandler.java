@@ -15,6 +15,13 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(InvalidSortFieldException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidSortFieldException(InvalidSortFieldException ex) {
+        return ResponseEntity.status(400).body(
+                new ErrorResponse(400, ex.getMessage(), LocalDateTime.now())
+        );
+    }
+
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex) {
         return ResponseEntity.status(404).body(

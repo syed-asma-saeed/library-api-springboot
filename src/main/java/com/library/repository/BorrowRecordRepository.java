@@ -3,6 +3,8 @@ package com.library.repository;
 import com.library.model.Book;
 import com.library.model.BorrowRecord;
 import com.library.model.Member;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,4 +19,7 @@ public interface BorrowRecordRepository extends JpaRepository<BorrowRecord, Long
     List<BorrowRecord> findByBook(Book book);
     List<BorrowRecord> findByReturned(boolean returned);
     List<BorrowRecord> findByReturnedFalseAndDueDateBefore(LocalDate date);
+
+    Page<BorrowRecord> findByReturnedFalseAndDueDateBefore(LocalDate date, Pageable pageable);
+    Page<BorrowRecord> findByMember(Member member, Pageable pageable);
 }

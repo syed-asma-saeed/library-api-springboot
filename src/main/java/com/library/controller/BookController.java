@@ -2,6 +2,7 @@ package com.library.controller;
 
 import com.library.dto.request.BookRequest;
 import com.library.dto.response.BookResponse;
+import com.library.dto.response.PageResponse;
 import com.library.service.BookService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,19 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BookResponse>> getAllBooks() {
-        return ResponseEntity.ok(bookService.getAllBooks());
+    public ResponseEntity<PageResponse<BookResponse>> getAllBooks(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "title") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDir) {
+
+        return ResponseEntity.ok(
+                bookService.getAllBooks(page, size, sortBy, sortDir));
     }
+
+    // @RequestParam(defaultValue = "0") means:
+    // if client doesn't send ?page=X, use 0
+    // client can override: GET /api/books?page=2&size=5&sortBy=author&sortDir=desc
 
     @GetMapping("/{id}")
     public ResponseEntity<BookResponse> getBook(@PathVariable Long id) {
@@ -30,8 +41,12 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<BookResponse>> search(@RequestParam String keyword) {
-        return ResponseEntity.ok(bookService.searchByTitle(keyword));
+    public ResponseEntity<PageResponse<BookResponse>> search(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        return ResponseEntity.ok(bookService.searchByTitle(keyword, page, size));
     }
 
     @PostMapping

@@ -15,7 +15,7 @@ public class BookResponse {
     private Long id;
     private String title;
     private String author;
-    private Genre genre;        // display name, not enum constant
+    private String genre;        // display name, not enum constant
     private int totalCopies;
     private int availableCopies;
 
