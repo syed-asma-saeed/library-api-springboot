@@ -1,10 +1,7 @@
 package com.library.dto.request;
 
-import com.library.enums.Genre;
 import com.library.enums.Role;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -27,7 +24,7 @@ public class RegisterRequest{
     @NotNull(message = "Role is required")
     private Role role;
 
-    @NotNull(message = "Password is required")
+    @NotBlank(message = "Password is required")
     private String password;
 
 }

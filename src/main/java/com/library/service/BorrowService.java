@@ -2,7 +2,7 @@ package com.library.service;
 
 import com.library.dto.request.BorrowRequest;
 import com.library.dto.response.BorrowResponse;
-import com.library.dto.response.MemberResponse;
+import com.library.dto.response.PageResponse;
 import com.library.exception.*;
 import com.library.model.Book;
 import com.library.model.BorrowRecord;
@@ -11,13 +11,13 @@ import com.library.repository.BookRepository;
 import com.library.repository.BorrowRecordRepository;
 import com.library.repository.MemberRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 public class BorrowService {
 
@@ -93,24 +93,32 @@ public class BorrowService {
     }
 
 
-    @Transactional
-    public List<BorrowResponse> getOverdueRecords(){
-        return borrowRecordRepository
-                .findByReturnedFalseAndDueDateBefore(LocalDate.now())
-                .stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
+    public PageResponse<BorrowResponse> getOverdueRecords(int page, int size, String sortBy, String sortDir){
+        Sort sort = sortDir.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<BorrowRecord> borrowPage = borrowRecordRepository
+                .findByReturnedFalseAndDueDateBefore(LocalDate.now(), pageable);
+
+        Page<BorrowResponse> responsePage = borrowPage.map(this::toResponse);
+        return toPageResponse(responsePage);
     }
 
 
-    @Transactional
-    public List<BorrowResponse> getMemberHistory(Long memberId){
+    public PageResponse<BorrowResponse> getMemberHistory(Long memberId, int page, int size){
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException("Member not found: " + memberId));
-        return borrowRecordRepository.findByMember(member)
-                .stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
+                .orElseThrow(() ->
+                        new MemberNotFoundException("Member not found: " + memberId));
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<BorrowRecord> borrowPage =
+                borrowRecordRepository.findByMember(member, pageable);
+
+        return toPageResponse(borrowPage.map(this::toResponse));
     }
 
 
@@ -123,6 +131,21 @@ public class BorrowService {
         response.setDueDate(borrowRecord.getDueDate());
         response.setReturned(borrowRecord.isReturned());
         response.setFine(borrowRecord.getFine());
+
+        return response;
+    }
+
+    private <T> PageResponse<T> toPageResponse(Page<T> page) {
+        PageResponse<T> response = new PageResponse<>();
+
+        response.setContent(page.getContent());
+        response.setPageNumber(page.getNumber());
+        response.setPageSize(page.getSize());
+        response.setTotalElements(page.getTotalElements());
+        response.setTotalPages(page.getTotalPages());
+        response.setFirst(page.isFirst());
+        response.setLast(page.isLast());
+        response.setHasNext(page.hasNext());
 
         return response;
     }

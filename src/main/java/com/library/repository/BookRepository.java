@@ -2,9 +2,11 @@ package com.library.repository;
 
 import com.library.enums.Genre;
 import com.library.model.Book;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @Repository
@@ -15,6 +17,15 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findByGenre(Genre genre);
     List<Book> findByTitleContainingIgnoreCase(String keyword);
     List<Book> findByAvailableCopiesGreaterThan(int copies);
+
+
+    Page<Book> findAll(Pageable pageable);
+
+    Page<Book> findByTitleContainingIgnoreCase(String keyword, Pageable pageable);
+
+    Page<Book> findByGenre(Genre genre, Pageable pageable);
+
+    Page<Book> findByAvailableCopiesGreaterThan(int copies, Pageable pageable);
 }
 
 

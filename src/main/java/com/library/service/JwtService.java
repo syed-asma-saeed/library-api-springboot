@@ -1,6 +1,6 @@
 package com.library.service;
 
-import com.library.repository.UserRepository;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -10,15 +10,10 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.function.Function;
 
 @Service
 public class JwtService {
-
-    private final UserRepository userRepository;
-
-    public JwtService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -33,15 +28,6 @@ public class JwtService {
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignKey())
                 .compact();
-    }
-
-    public String extractEmail(String token) {
-        return Jwts.parser()
-                .verifyWith(getSignKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
     }
 
     public boolean isTokenValid(String token, UserDetails user) {
@@ -59,12 +45,27 @@ public class JwtService {
         return extractExpiration(token).before(new Date());
     }
 
-    private Date extractExpiration(String token) {
-        return Jwts.parser()
+    private <T> T extractClaim(String token, Function<Claims, T> resolver) {
+        Claims claims = Jwts.parser()
                 .verifyWith(getSignKey())
                 .build()
                 .parseSignedClaims(token)
-                .getPayload()
-                .getExpiration();
+                .getPayload();
+        return resolver.apply(claims);
+    }
+
+    /*
+    A JWT payload contains claims.  These pieces of information are claims:
+        sub → subject
+        iat → issued at
+        exp → expiration
+
+     */
+    public String extractEmail(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
     }
 }
