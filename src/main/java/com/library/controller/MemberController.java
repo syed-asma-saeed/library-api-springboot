@@ -68,9 +68,9 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Member not found"),
             @ApiResponse(responseCode = "403", description = "Forbidden — ADMIN role required")
     })
-    public ResponseEntity<MemberResponse> updateMember(@Valid
+    public ResponseEntity<MemberResponse> updateMember(
             @PathVariable Long id,
-            @RequestBody MemberRequest request) {
+            @Valid @RequestBody MemberRequest request) {
         return ResponseEntity.ok(memberService.updateMember(id, request));
     }
 

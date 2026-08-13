@@ -32,8 +32,7 @@ public class BorrowController {
     @Operation(summary = "Borrow a Book")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Book borrowed successfully"),
-            @ApiResponse(responseCode = "400", description = "No copies available"),
-            @ApiResponse(responseCode = "400", description = "Borrow Limit exceeded"),
+            @ApiResponse(responseCode = "400", description = "No copies available OR Borrow Limit exceeded"),
             @ApiResponse(responseCode = "404", description = "Book not found")
     })
     public ResponseEntity<BorrowResponse> borrowBook(@Valid @RequestBody BorrowRequest request) {  //@valid works only one @RequestBody
@@ -43,7 +42,7 @@ public class BorrowController {
     @PostMapping("return/{recordId}")
     @Operation(summary = "Return a Book")
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Book returned successfully"),
+            @ApiResponse(responseCode = "200", description = "Book returned successfully"),
             @ApiResponse(responseCode = "400", description = "Book already returned"),
             @ApiResponse(responseCode = "404", description = "Book not found")
     })
@@ -54,8 +53,8 @@ public class BorrowController {
     @GetMapping("/overdue")
     @Operation(summary = "Get overdue records")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Overdue records retrieved successfully"),
-            @ApiResponse(responseCode = "401", description = "No overdue records available")
+            @ApiResponse(responseCode = "200", description = "Overdue records retrieved (may be empty list)"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized — JWT token required")
     })
     public ResponseEntity<PageResponse<BorrowResponse>> getOverdueRecords(
             @RequestParam(defaultValue = "0") int page,
@@ -71,7 +70,7 @@ public class BorrowController {
     @GetMapping("/history/{memberId}")
     @Operation(summary = "Get member borrow history")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Member borrow history retrieved successfully"),
+            @ApiResponse(responseCode = "200", description = "Borrow history retrieved (may be empty list)"),
             @ApiResponse(responseCode = "401", description = "No history available"),
             @ApiResponse(responseCode = "404", description = "Member not found")
     })

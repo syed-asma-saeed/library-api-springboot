@@ -1,5 +1,6 @@
 package com.library.dto.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,10 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberResponse {
-    private Long id;
-    private String name;
-    private String email;
-    private String memberType;       // display name
-    private int currentBorrowCount;
-    private int borrowLimit;         // from enum
+    @Schema(example = "1") private Long id;
+    @Schema(example = "Rahul Sharma") private String name;
+    @Schema(example = "rahul@email.com") private String email;
+    @Schema(example = "STUDENT") private String memberType;
+    @Schema(example = "2") private int currentBorrowCount;
+    @Schema(example = "3") private int borrowLimit;    // from enum
 }
