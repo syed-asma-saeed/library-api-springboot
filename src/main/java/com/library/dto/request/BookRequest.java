@@ -12,6 +12,7 @@ DTOs are clean, controlled, what the client actually needs.
 package com.library.dto.request;
 
 import com.library.enums.Genre;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,15 +27,19 @@ import lombok.NoArgsConstructor;
 public class BookRequest {
 
     @NotBlank(message = "Title is required")
+    @Schema(description = "Book title", example = "Clean Code")
     private String title;
 
     @NotBlank(message = "Author is required")
+    @Schema(description = "Book author", example = "Robert C. Martin")
     private String author;
 
     @NotNull(message = "Genre is required")
+    @Schema(description = "Book genre", example = "TECHNOLOGY")
     private Genre genre;
 
     @Min(value = 1, message = "Must have at least 1 copy")
+    @Schema(description = "Total number of copies", example = "3")
     private int totalCopies;
 
 }

@@ -3,20 +3,30 @@ package com.library.dto.response;
 
 
 import com.library.enums.Genre;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data                   // getters + setters + toString + equals + hashCode
-@NoArgsConstructor
-@AllArgsConstructor
-
+@Schema(description = "Book response object")
+@Data @NoArgsConstructor @AllArgsConstructor
 public class BookResponse {
-    private Long id;
-    private String title;
-    private String author;
-    private String genre;        // display name, not enum constant
-    private int totalCopies;
-    private int availableCopies;
 
+    @Schema(example = "1")
+    private Long id;
+
+    @Schema(example = "Clean Code")
+    private String title;
+
+    @Schema(example = "Robert C. Martin")
+    private String author;
+
+    @Schema(example = "Technology")
+    private String genre;
+
+    @Schema(example = "3")
+    private int totalCopies;
+
+    @Schema(example = "2")
+    private int availableCopies;
 }

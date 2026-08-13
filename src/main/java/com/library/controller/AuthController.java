@@ -31,9 +31,9 @@ public class AuthController {
     @PostMapping("/register")
     @Operation(summary = "Create your Account")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Account Created successfully"),
+            @ApiResponse(responseCode = "201", description = "Account Created successfully"),
             @ApiResponse(responseCode = "400", description = "Validation failed"),
-            @ApiResponse(responseCode = "409", description = "User already exists")
+            @ApiResponse(responseCode = "409", description = "User already exists"),
     })
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.status(201).body(authService.register(request));
