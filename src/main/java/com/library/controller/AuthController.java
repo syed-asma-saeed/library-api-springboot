@@ -5,8 +5,11 @@ import com.library.dto.request.BookRequest;
 import com.library.dto.request.RegisterRequest;
 import com.library.dto.response.AuthResponse;
 import com.library.dto.response.BookResponse;
+import com.library.dto.response.ErrorResponse;
 import com.library.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,9 +34,21 @@ public class AuthController {
     @PostMapping("/register")
     @Operation(summary = "Create your Account")
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Account Created successfully"),
-            @ApiResponse(responseCode = "400", description = "Validation failed"),
-            @ApiResponse(responseCode = "409", description = "User already exists"),
+            @ApiResponse(responseCode = "201", description = "Account Created successfully",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = AuthResponse.class)
+                    )),
+            @ApiResponse(responseCode = "400", description = "Validation failed",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )),
+            @ApiResponse(responseCode = "409", description = "User already exists",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )),
     })
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.status(201).body(authService.register(request));
@@ -42,8 +57,16 @@ public class AuthController {
     @PostMapping("/login")
     @Operation(summary = "Login to your Account")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Logged in successfully"),
-            @ApiResponse(responseCode = "401", description = "Wrong Credentials")
+            @ApiResponse(responseCode = "200", description = "Logged in successfully",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = AuthResponse.class)
+                    )),
+            @ApiResponse(responseCode = "401", description = "Wrong Credentials",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    ))
     })
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest request) {
         return ResponseEntity.ok(authService.login(request));

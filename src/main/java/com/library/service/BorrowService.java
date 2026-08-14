@@ -108,17 +108,21 @@ public class BorrowService {
     }
 
 
-    public PageResponse<BorrowResponse> getMemberHistory(Long memberId, int page, int size){
+    @Transactional
+    public PageResponse<BorrowResponse> getMemberHistory(
+            Long memberId, int page, int size) {
+
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() ->
                         new MemberNotFoundException("Member not found: " + memberId));
 
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<BorrowRecord> borrowPage =
-                borrowRecordRepository.findByMember(member, pageable);
+        Page<BorrowRecord> recordPage = borrowRecordRepository
+                .findByMemberWithDetails(member, pageable);
+        // Member and Book already loaded — no lazy loading needed ✅
 
-        return toPageResponse(borrowPage.map(this::toResponse));
+        return toPageResponse(recordPage.map(this::toResponse));
     }
 
 
