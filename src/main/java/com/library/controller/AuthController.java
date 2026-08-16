@@ -1,10 +1,8 @@
 package com.library.controller;
 
 import com.library.dto.request.AuthRequest;
-import com.library.dto.request.BookRequest;
 import com.library.dto.request.RegisterRequest;
 import com.library.dto.response.AuthResponse;
-import com.library.dto.response.BookResponse;
 import com.library.dto.response.ErrorResponse;
 import com.library.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
