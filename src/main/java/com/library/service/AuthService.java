@@ -65,5 +65,8 @@ public class AuthService {
         return new AuthResponse(token);
 
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 508f3eae2851d7b50f65c2519dc5c38db4bd4a6d
 }

@@ -7,7 +7,10 @@ import com.library.dto.response.ErrorResponse;
 import com.library.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+<<<<<<< HEAD
 import io.swagger.v3.oas.annotations.media.ExampleObject;
+=======
+>>>>>>> 508f3eae2851d7b50f65c2519dc5c38db4bd4a6d
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -41,6 +44,7 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "Validation failed",
                     content = @Content(
                             mediaType = "application/json",
+<<<<<<< HEAD
                             schema = @Schema(implementation = ErrorResponse.class),
                             examples = @ExampleObject(
                                     value = """
@@ -51,10 +55,14 @@ public class AuthController {
                                     }
                                     """
                             )
+=======
+                            schema = @Schema(implementation = ErrorResponse.class)
+>>>>>>> 508f3eae2851d7b50f65c2519dc5c38db4bd4a6d
                     )),
             @ApiResponse(responseCode = "409", description = "User already exists",
                     content = @Content(
                             mediaType = "application/json",
+<<<<<<< HEAD
                             schema = @Schema(implementation = ErrorResponse.class),
                             examples = @ExampleObject(
                                     value = """
@@ -65,6 +73,9 @@ public class AuthController {
                                     }
                                     """
                             )
+=======
+                            schema = @Schema(implementation = ErrorResponse.class)
+>>>>>>> 508f3eae2851d7b50f65c2519dc5c38db4bd4a6d
                     )),
     })
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
@@ -79,6 +90,7 @@ public class AuthController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = AuthResponse.class)
                     )),
+<<<<<<< HEAD
             @ApiResponse(responseCode = "401", description = "Invalid credentials",
                     content = @Content(
                             mediaType = "application/json",
@@ -92,11 +104,20 @@ public class AuthController {
                                     }
                                     """
                             )
+=======
+            @ApiResponse(responseCode = "401", description = "Wrong Credentials",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)
+>>>>>>> 508f3eae2851d7b50f65c2519dc5c38db4bd4a6d
                     ))
     })
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 508f3eae2851d7b50f65c2519dc5c38db4bd4a6d
 }

@@ -6,7 +6,10 @@ import com.library.dto.response.MemberResponse;
 import com.library.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+<<<<<<< HEAD
 import io.swagger.v3.oas.annotations.media.ExampleObject;
+=======
+>>>>>>> 508f3eae2851d7b50f65c2519dc5c38db4bd4a6d
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -40,6 +43,7 @@ public class MemberController {
             @ApiResponse(responseCode = "401", description = "Unauthorized",
                     content = @Content(
                             mediaType = "application/json",
+<<<<<<< HEAD
                             schema = @Schema(implementation = ErrorResponse.class),
                             examples = @ExampleObject(
                                     value = """
@@ -50,6 +54,9 @@ public class MemberController {
                                     }
                                     """
                             )
+=======
+                            schema = @Schema(implementation = ErrorResponse.class)
+>>>>>>> 508f3eae2851d7b50f65c2519dc5c38db4bd4a6d
                     ))
     })
     public ResponseEntity<List<MemberResponse>> getAllMembers() {
@@ -64,6 +71,7 @@ public class MemberController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = MemberResponse.class)
                     )),
+<<<<<<< HEAD
             @ApiResponse(responseCode = "401", description = "Unauthorized",
                     content = @Content(
                             mediaType = "application/json",
@@ -91,6 +99,17 @@ public class MemberController {
                                     }
                                     """
                             )
+=======
+            @ApiResponse(responseCode = "404", description = "Member not found",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )),
+            @ApiResponse(responseCode = "401", description = "Unauthorized",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)
+>>>>>>> 508f3eae2851d7b50f65c2519dc5c38db4bd4a6d
                     ))
     })
     public ResponseEntity<MemberResponse> getMember(@PathVariable Long id) {
@@ -111,6 +130,7 @@ public class MemberController {
             @ApiResponse(responseCode = "400", description = "Validation failed",
                     content = @Content(
                             mediaType = "application/json",
+<<<<<<< HEAD
                             schema = @Schema(implementation = ErrorResponse.class),
                             examples = @ExampleObject(
                                     value = """
@@ -121,10 +141,14 @@ public class MemberController {
                                     }
                                     """
                             )
+=======
+                            schema = @Schema(implementation = ErrorResponse.class)
+>>>>>>> 508f3eae2851d7b50f65c2519dc5c38db4bd4a6d
                     )),
             @ApiResponse(responseCode = "403", description = "Forbidden — ADMIN role required",
                     content = @Content(
                             mediaType = "application/json",
+<<<<<<< HEAD
                             schema = @Schema(implementation = ErrorResponse.class),
                             examples = @ExampleObject(
                                     value = """
@@ -135,10 +159,14 @@ public class MemberController {
                                     }
                                     """
                             )
+=======
+                            schema = @Schema(implementation = ErrorResponse.class)
+>>>>>>> 508f3eae2851d7b50f65c2519dc5c38db4bd4a6d
                     )),
             @ApiResponse(responseCode = "409", description = "Member already Exists with this Email",
                     content = @Content(
                             mediaType = "application/json",
+<<<<<<< HEAD
                             schema = @Schema(implementation = ErrorResponse.class),
                             examples = @ExampleObject(
                                     value = """
@@ -149,6 +177,9 @@ public class MemberController {
                                     }
                                     """
                             )
+=======
+                            schema = @Schema(implementation = ErrorResponse.class)
+>>>>>>> 508f3eae2851d7b50f65c2519dc5c38db4bd4a6d
                     ))
     })
     public ResponseEntity<MemberResponse> addMember(@Valid @RequestBody MemberRequest request) {
@@ -163,6 +194,7 @@ public class MemberController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = MemberResponse.class)
                     )),
+<<<<<<< HEAD
             @ApiResponse(responseCode = "403", description = "Forbidden — ADMIN role required",
                     content = @Content(
                             mediaType = "application/json",
@@ -190,6 +222,17 @@ public class MemberController {
                                     }
                                     """
                             )
+=======
+            @ApiResponse(responseCode = "404", description = "Member not found",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )),
+            @ApiResponse(responseCode = "403", description = "Forbidden — ADMIN role required",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)
+>>>>>>> 508f3eae2851d7b50f65c2519dc5c38db4bd4a6d
                     ))
     })
     public ResponseEntity<MemberResponse> updateMember(
@@ -209,6 +252,7 @@ public class MemberController {
             @ApiResponse(responseCode = "400", description = "Member has active borrows",
                     content = @Content(
                             mediaType = "application/json",
+<<<<<<< HEAD
                             schema = @Schema(implementation = ErrorResponse.class),
                             examples = @ExampleObject(
                                     value = """
@@ -219,10 +263,14 @@ public class MemberController {
                                     }
                                     """
                             )
+=======
+                            schema = @Schema(implementation = ErrorResponse.class)
+>>>>>>> 508f3eae2851d7b50f65c2519dc5c38db4bd4a6d
                     )),
             @ApiResponse(responseCode = "403", description = "Forbidden — ADMIN role required",
                     content = @Content(
                             mediaType = "application/json",
+<<<<<<< HEAD
                             schema = @Schema(implementation = ErrorResponse.class),
                             examples = @ExampleObject(
                                     value = """
@@ -233,6 +281,9 @@ public class MemberController {
                                     }
                                     """
                             )
+=======
+                            schema = @Schema(implementation = ErrorResponse.class)
+>>>>>>> 508f3eae2851d7b50f65c2519dc5c38db4bd4a6d
                     ))
     })
     public ResponseEntity<Void> deleteMember(@PathVariable Long id) {
