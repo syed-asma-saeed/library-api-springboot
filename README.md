@@ -75,6 +75,14 @@ spring.datasource.password=your_mysql_password
 jwt.secret=your-base64-encoded-secret-key
 jwt.expiration=your-expiration-time-in-milliseconds(ex-86400000)
 ```
+Open `docker-compose.yml` and update:
+
+```properties
+MYSQL_ROOT_PASSWORD:your_mysql_password
+SPRING_DATASOURCE_URL:jdbc:mysql://mysql:3306/library_db
+JWT_SECRET:your-base64-encoded-secret-key
+JWT_EXPIRATION:your-expiration-time-in-milliseconds(ex-86400000)
+```
 
 > **Generating a JWT secret:** use any Base64-encoded string of at least 48 bytes.
 > You can generate one with: `openssl rand -base64 64`
@@ -85,13 +93,15 @@ jwt.expiration=your-expiration-time-in-milliseconds(ex-86400000)
 mvn spring-boot:run
 ```
 
-The server starts at `http://localhost:8080`
+The server starts at `http://localhost:8080/swagger-ui/index.html#`
 
-### 5. Open API documentation
+### 5. 🌐 Live Demo
+API Base URL: https://library-api-xxxx.railway.app
+Swagger UI:   https://library-api-xxxx.railway.app/swagger-ui.html
 
-```
-http://localhost:8080/swagger-ui.html
-```
+Test credentials (Initialized on start):
+Admin → email: admin@library.com  password: admin123
+User  → email: user@library.com   password: user123
 
 ---
 
@@ -292,8 +302,7 @@ All errors return a consistent JSON structure:
 ```json
 {
   "status": 404,
-  "message": "Book not found: 99",
-  "timestamp": "2024-01-15T10:30:00"
+  "message": "Book not found: 99"
 }
 ```
 
