@@ -7,7 +7,7 @@ services:
     image: mysql:8.0
     container_name: library-mysql
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_ROOT_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       MYSQL_DATABASE: library_db
       MYSQL_USER: library_user
       MYSQL_PASSWORD: library_password
