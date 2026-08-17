@@ -9,6 +9,7 @@ import com.library.dto.response.PageResponse;
 import com.library.service.BorrowService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -42,12 +43,30 @@ public class BorrowController {
             @ApiResponse(responseCode = "400", description = "No copies available OR Borrow Limit exceeded",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 400,
+                                      "message": "No copies available OR Borrow Limit exceeded.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     )),
             @ApiResponse(responseCode = "404", description = "Book not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 404,
+                                      "message": "Book not found.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     ))
     })
     public ResponseEntity<BorrowResponse> borrowBook(@Valid @RequestBody BorrowRequest request) {  //@valid works only one @RequestBody
@@ -65,12 +84,31 @@ public class BorrowController {
             @ApiResponse(responseCode = "400", description = "Book already returned",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 400,
+                                      "message": "Book already returned.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     )),
+
             @ApiResponse(responseCode = "404", description = "Book not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 404,
+                                      "message": "Book not found.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     ))
     })
     public ResponseEntity<BorrowResponse> returnBook(@PathVariable Long recordId){
@@ -88,7 +126,16 @@ public class BorrowController {
             @ApiResponse(responseCode = "401", description = "Unauthorized — JWT token required",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 401,
+                                      "message": "Unauthorized — JWT token required.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     ))
     })
     public ResponseEntity<PageResponse<BorrowResponse>> getOverdueRecords(
@@ -113,12 +160,30 @@ public class BorrowController {
             @ApiResponse(responseCode = "401", description = "No history available",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 401,
+                                      "message": "No history available.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     )),
             @ApiResponse(responseCode = "404", description = "Member not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 404,
+                                      "message": "Member not found.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     ))
     })
     public ResponseEntity<PageResponse<BorrowResponse>> getMemberHistory(

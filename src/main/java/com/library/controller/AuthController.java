@@ -7,6 +7,7 @@ import com.library.dto.response.ErrorResponse;
 import com.library.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -40,12 +41,30 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "Validation failed",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 400,
+                                      "message": "Validation failed!",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     )),
             @ApiResponse(responseCode = "409", description = "User already exists",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 409,
+                                      "message": "User already exists with this email.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     )),
     })
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
@@ -60,14 +79,24 @@ public class AuthController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = AuthResponse.class)
                     )),
-            @ApiResponse(responseCode = "401", description = "Wrong Credentials",
+            @ApiResponse(responseCode = "401", description = "Invalid credentials",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 401,
+                                      "message": "Invalid credentials.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     ))
     })
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
+
 
 }

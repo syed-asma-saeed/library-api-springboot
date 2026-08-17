@@ -6,6 +6,7 @@ import com.library.dto.response.MemberResponse;
 import com.library.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -39,7 +40,16 @@ public class MemberController {
             @ApiResponse(responseCode = "401", description = "Unauthorized",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 401,
+                                      "message": "Unauthorised user.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     ))
     })
     public ResponseEntity<List<MemberResponse>> getAllMembers() {
@@ -54,15 +64,33 @@ public class MemberController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = MemberResponse.class)
                     )),
-            @ApiResponse(responseCode = "404", description = "Member not found",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
-                    )),
             @ApiResponse(responseCode = "401", description = "Unauthorized",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 401,
+                                      "message": "Unauthorized.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
+                    )),
+            @ApiResponse(responseCode = "404", description = "Member not found",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 404,
+                                      "message": "Member not found.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     ))
     })
     public ResponseEntity<MemberResponse> getMember(@PathVariable Long id) {
@@ -83,17 +111,44 @@ public class MemberController {
             @ApiResponse(responseCode = "400", description = "Validation failed",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 400,
+                                      "message": "Validation failed.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     )),
             @ApiResponse(responseCode = "403", description = "Forbidden — ADMIN role required",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 403,
+                                      "message": "Forbidden — ADMIN role required.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     )),
             @ApiResponse(responseCode = "409", description = "Member already Exists with this Email",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 409,
+                                      "message": "Member already Exists with this email.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     ))
     })
     public ResponseEntity<MemberResponse> addMember(@Valid @RequestBody MemberRequest request) {
@@ -108,15 +163,33 @@ public class MemberController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = MemberResponse.class)
                     )),
-            @ApiResponse(responseCode = "404", description = "Member not found",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
-                    )),
             @ApiResponse(responseCode = "403", description = "Forbidden — ADMIN role required",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 403,
+                                      "message": "Forbidden — ADMIN role required.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
+                    )),
+            @ApiResponse(responseCode = "404", description = "Member not found",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 404,
+                                      "message": "Member not found.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     ))
     })
     public ResponseEntity<MemberResponse> updateMember(
@@ -136,12 +209,30 @@ public class MemberController {
             @ApiResponse(responseCode = "400", description = "Member has active borrows",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 400,
+                                      "message": "Member has active borrows.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     )),
             @ApiResponse(responseCode = "403", description = "Forbidden — ADMIN role required",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 403,
+                                      "message": "Forbidden — ADMIN role required.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     ))
     })
     public ResponseEntity<Void> deleteMember(@PathVariable Long id) {

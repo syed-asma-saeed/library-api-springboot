@@ -8,6 +8,7 @@ import com.library.dto.response.PageResponse;
 import com.library.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -44,12 +45,30 @@ public class BookController {
             @ApiResponse(responseCode = "400", description = "Invalid sort field provided",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 400,
+                                      "message": "Invalid sort field provided.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     )),
             @ApiResponse(responseCode = "401", description = "JWT token missing or invalid",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 401,
+                                      "message": "JWT token missing or invalid.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     ))
     })
     public ResponseEntity<PageResponse<BookResponse>> getAllBooks(
@@ -68,15 +87,33 @@ public class BookController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = BookResponse.class)
                     )),
-            @ApiResponse(responseCode = "404", description = "Book not found",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
-                    )),
             @ApiResponse(responseCode = "401", description = "Unauthorized",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 401,
+                                      "message": "Unauthorized user.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
+                    )),
+            @ApiResponse(responseCode = "404", description = "Book not found",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 404,
+                                      "message": "Book not found.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     ))
     })
     public ResponseEntity<BookResponse> getBook(@PathVariable Long id) {
@@ -97,7 +134,16 @@ public class BookController {
             @ApiResponse(responseCode = "404", description = "Book not found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 404,
+                                      "message": "Book not found.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     )),
     })
     public ResponseEntity<PageResponse<BookResponse>> search(
@@ -121,12 +167,30 @@ public class BookController {
             @ApiResponse(responseCode = "400", description = "Validation failed",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 400,
+                                      "message": "Validation failed.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     )),
             @ApiResponse(responseCode = "403", description = "Forbidden — ADMIN role required",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 403,
+                                      "message": "Forbidden — ADMIN role required.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     ))
     })
     public ResponseEntity<BookResponse> addBook(@Valid @RequestBody BookRequest request) {
@@ -141,15 +205,33 @@ public class BookController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = BookResponse.class)
                     )),
-            @ApiResponse(responseCode = "404", description = "Book not found",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
-                    )),
             @ApiResponse(responseCode = "403", description = "Forbidden — ADMIN role required",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 403,
+                                      "message": "Forbidden — ADMIN role required.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
+                    )),
+            @ApiResponse(responseCode = "404", description = "Book not found",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 404,
+                                      "message": "Book not found.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     ))
     })
     public ResponseEntity<BookResponse> updateBook(
@@ -159,22 +241,39 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete a book", description = "ADMIN only.")
+    @Operation(summary = "Delete a book", description = "Forbidden — ADMIN role required")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Book deleted",
                     content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = BookResponse.class)
-                    )),
-            @ApiResponse(responseCode = "404", description = "Book not found",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            mediaType = "application/json"
                     )),
             @ApiResponse(responseCode = "403", description = "Forbidden — ADMIN role required",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 403,
+                                      "message": "Forbidden — ADMIN role required.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
+                    )),
+            @ApiResponse(responseCode = "404", description = "Book not found",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                    {
+                                      "status": 404,
+                                      "message": "Book not found.",
+                                      "timestamp": "2026-08-17T18:30:00"
+                                    }
+                                    """
+                            )
                     ))
     })
     public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
